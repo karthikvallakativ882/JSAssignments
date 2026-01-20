@@ -101,3 +101,6 @@ Object.freeze(settings);
 settings.language = "fr";
 
 console.log("Final Settings:", settings);
+
+
+//done 5 tasks
