@@ -33,3 +33,4 @@
                             return "due date must be a future date";
                         } 
                       }
+   export { validateTitle, validatePriority, validateDueDate };                   
