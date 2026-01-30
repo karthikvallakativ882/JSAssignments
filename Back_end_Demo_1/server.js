@@ -1,27 +1,30 @@
-//Create HTTP Server
-// Import express module
-import exp from 'express' ;
-//import userApp from user_api.js
-import {userApp} from './APIS/user_api.js';
-//import productsApp from products_api.js
-import {productsApp} from './APIS/products_api.js';
+import exp from "express";
+import { usersApp } from "./APIS/user_api.js";
+import { productsApp } from "./APIS/products_api.js";
 
-// use the express app (not a Router)
 const app = exp();
 
-/**     function middleware1(req,res,next){
-        console.log("Middleware1")
-        next();
-    }
-
-    app.use(middleware1);*/
-
+// Middleware to parse JSON body
 app.use(exp.json());
 
-app.use('/user-api', userApp);
+// Route forwarding
+app.use("/user-api", usersApp);
+app.use("/products-api", productsApp);
 
-app.use('/products-api', productsApp);
+// Invalid path handler
+app.use((req, res) => {
+    res.status(404).json({ message: "Invalid path" });
+});
 
+// Global error handler
+app.use((err, req, res, next) => {
+    res.status(500).json({
+        message: "Server Error",
+        error: err.message
+    });
+});
+
+// Start server
 app.listen(3000, () => {
-    console.log("Server is listening on port 3000");
+    console.log("Server running on http://localhost:3000");
 });

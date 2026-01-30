@@ -1,45 +1,96 @@
-import  exp from 'express'
-//create min express (spearte router ) app
-export const userApp = exp.Router();
- 
- let users = []
-  
-  userApp.get("/users",(req,res)=>{
-            res.status(200).json({message: "all users", payload:users});
-        })
+import exp from "express";
 
-        userApp.post("/users",(req,res)=>{
-            let newUser = req.body;
-            users.push(newUser);
-            res.status(201).json({message: "User Created ! "});
-        })
+export const usersApp = exp.Router();
 
-userApp.put("/users/:id", (req, res) => {
-    const id = Number(req.params.id);
-    const modifiedUser = req.body;
-    const idx = users.findIndex(u => u.id === id);
-    if (idx === -1) return res.status(404).json({ message: "user not found" });
-    users[idx] = { ...users[idx], ...modifiedUser, id };
-    res.status(200).json({ message: "user Modified !", payload: users[idx] });
-        })
+// Temporary in-memory storage
+let users = [];
 
-        userApp.get("/users/:id",(req, res)=>{
-            let userId = Number(req.params.id);
-            let user = users.find(user1=> user1.id === Number(userId));
-            if(!user){
-                return res.status(404).json({message: "User Not Found"});
-            
-            }
-            res.status(200).json({message: "User",payload: user});
-        })
 
-     userApp.delete("/users/:id",( req, res )=>{
-    let userId = Number(req.params.id);
-    let idx = users.findIndex(userobj => userobj.id === userId); // Find the index of the user
-    console.log(userId);
-    if (idx === -1) {
-        return res.status(404).json({message: "User Not Found!"});
+// GET all users
+
+usersApp.get("/users", (req, res) => {
+    res.status(200).json({
+        message: "All users",
+        payload: users
+    });
+});
+
+
+// CREATE user
+
+usersApp.post("/users", (req, res) => {
+    const newUser = req.body;
+
+    // Validation
+    if (!newUser || !newUser.id) {
+        return res.status(400).json({
+            message: "User id is required"
+        });
     }
-    let deletedUser = users.splice(idx, 1); // Use the index to splice
-    res.status(200).json({message: "User Deleted!", payload: deletedUser});
-})
+
+    users.push(newUser);
+
+    res.status(201).json({
+        message: "User created",
+        payload: newUser
+    });
+});
+
+
+// UPDATE user by ID
+
+usersApp.put("/users/:id", (req, res) => {
+    const id = Number(req.params.id);
+    const updatedData = req.body;
+
+    const index = users.findIndex(u => u && u.id === id);
+
+    if (index === -1) {
+        return res.status(404).json({ message: "User not found" });
+    }
+
+    users[index] = { ...users[index], ...updatedData, id };
+
+    res.status(200).json({
+        message: "User updated",
+        payload: users[index]
+    });
+});
+
+
+// GET user by ID
+
+usersApp.get("/users/:id", (req, res) => {
+    const id = Number(req.params.id);
+
+    const user = users.find(u => u && u.id === id);
+
+    if (!user) {
+        return res.status(404).json({ message: "User not found" });
+    }
+
+    res.status(200).json({
+        message: "User",
+        payload: user
+    });
+});
+
+
+// DELETE user by ID
+
+usersApp.delete("/users/:id", (req, res) => {
+    const id = Number(req.params.id);
+
+    const index = users.findIndex(u => u && u.id === id);
+
+    if (index === -1) {
+        return res.status(404).json({ message: "User not found" });
+    }
+
+    const deletedUser = users.splice(index, 1);
+
+    res.status(200).json({
+        message: "User deleted",
+        payload: deletedUser[0]
+    });
+});

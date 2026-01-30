@@ -6,8 +6,8 @@ POST http://localhost:3000/user-api/users
 Content-Type: application/json
 
 {
-    "id":1,
-    "name":"Dinesnjjjh",
+    "id": 2,
+    "name":"Dinesh",
     "age":20
 }
 
@@ -27,19 +27,35 @@ GET http://localhost:3000/user-api/users/1
 
 ###
 
-DELETE http://localhost:3000/user-api/users/2
+DELETE http://localhost:3000/user-api/users/1
 
 
 ###
-GET http://localhost:3000/products
+GET http://localhost:3000/products-api/products
 
 ###
-POST http://localhost:3000/products
+POST http://localhost:3000/products-api/products
 Content-Type: application/json
 
 {
-    "productId": 1,
-    "name":"Redmi Note 10",
+    "productId": 2,
+    "name":"vivo Note 10",
     "price":5000,
     "brand":"MI"
 }
+
+###
+PUT http://localhost:3000/products-api/products/1
+Content-Type: application/json
+
+{
+    "name":"Redmi Note 10 Pro",
+    "price":7000,
+    "brand":"MI"
+}
+
+###
+GET http://localhost:3000/products-api/products/2   
+
+###
+DELETE http://localhost:3000/products-api/products/2
