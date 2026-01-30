@@ -1,0 +1,45 @@
+GET http://localhost:3000/user-api/users
+
+###
+
+POST http://localhost:3000/user-api/users
+Content-Type: application/json
+
+{
+    "id":1,
+    "name":"Dinesnjjjh",
+    "age":20
+}
+
+###
+
+PUT http://localhost:3000/user-api/users/1
+Content-Type: application/json
+
+{
+    "name":"Dinesh Karthik",
+    "age":35
+}
+
+###
+
+GET http://localhost:3000/user-api/users/1
+
+###
+
+DELETE http://localhost:3000/user-api/users/2
+
+
+###
+GET http://localhost:3000/products
+
+###
+POST http://localhost:3000/products
+Content-Type: application/json
+
+{
+    "productId": 1,
+    "name":"Redmi Note 10",
+    "price":5000,
+    "brand":"MI"
+}
